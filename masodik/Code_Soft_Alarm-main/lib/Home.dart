@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late List<AlarmSettings> alarms;
-  List<bool> _alarmOnOff = [];
+  final List<bool> _alarmOnOff = [];
 
   static StreamSubscription<AlarmSettings>? subscription;
 
