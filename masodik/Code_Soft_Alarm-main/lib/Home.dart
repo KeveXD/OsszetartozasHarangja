@@ -52,7 +52,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings)  async {
-   // print("LOOOL\n\n\n\n");
     await Navigator.push(
         context,
         MaterialPageRoute(
@@ -63,18 +62,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
-    // final res = await showModalBottomSheet<bool?>(
-    //     context: context,
-    //     isScrollControlled: true,
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(10.0),
-    //     ),
-    //     builder: (context) {
-    //       return FractionallySizedBox(
-    //         heightFactor: 0.75,
-    //         child: ExampleAlarmEditScreen(alarmSettings: settings),
-    //       );
-    //     });
+
     final res = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -93,7 +81,6 @@ class _MainPageState extends State<MainPage> {
       alarmPrint(
         'Notification permission ${res.isGranted ? '' : 'not'} granted.',
       );
-      print("baj van");
     }
   }
 
@@ -105,7 +92,6 @@ class _MainPageState extends State<MainPage> {
       alarmPrint(
         'External storage permission ${res.isGranted ? '' : 'not'} granted.',
       );
-      print("baj van");
     }
   }
 
@@ -145,7 +131,7 @@ class _MainPageState extends State<MainPage> {
               : Expanded(
                   child: Center(
                     child: Text(
-                      "No alarms set",
+                      "Összetartozás harangja",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
