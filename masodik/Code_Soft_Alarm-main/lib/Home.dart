@@ -4,6 +4,7 @@ import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:cod_soft_alarm/Edit_page.dart';
 import 'package:cod_soft_alarm/ring.dart';
+import 'package:cod_soft_alarm/tobbi/ido.dart';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -144,7 +145,7 @@ class _MainPageState extends State<MainPage> {
               : Expanded(
                   child: Center(
                     child: Text(
-                      "Összetartozás harangja",
+                      "No alarms set",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
@@ -253,57 +254,3 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-class Realtime extends StatefulWidget {
-  const Realtime({super.key});
-
-  @override
-  _RealtimeState createState() => _RealtimeState();
-}
-
-class _RealtimeState extends State<Realtime> {
-  late StreamController<DateTime> _clockStreamController;
-  late Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _clockStreamController = StreamController<DateTime>();
-    _startClock();
-  }
-
-  void _startClock() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      _clockStreamController.add(DateTime.now());
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    _clockStreamController.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<DateTime>(
-      stream: _clockStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          String formattedTime =
-              DateFormat('hh:mm:ss a').format(snapshot.data!);
-
-          return Text(
-            formattedTime,
-            style: Theme.of(context).textTheme.headlineLarge,
-          );
-        } else {
-          return Text(
-            "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-            style: Theme.of(context).textTheme.headlineLarge,
-          );
-        }
-      },
-    );
-  }
-}
