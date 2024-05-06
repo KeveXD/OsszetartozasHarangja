@@ -10,13 +10,19 @@ class ExampleAlarmRingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Center(
-            //   child: MapAnimation(),
-            // ),
-            Column(
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.3, // Átlátszóság beállítása
+            child: Image.asset(
+              'assets/logo2.jpg', // Háttérkép elérési útja
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SafeArea(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
@@ -31,7 +37,29 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                   children: [
                     RawMaterialButton(
                       onPressed: () {
-                        Alarm.stop(alarmSettings.id).then((_) => Navigator.pop(context));
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Biztosan le szeretné állítani a harangot?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Mégsem"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Alarm.stop(alarmSettings.id).then((_) => Navigator.pop(context));
+                                  },
+                                  child: Text("Igen"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       child: Text(
                         "Vége",
@@ -42,8 +70,8 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
