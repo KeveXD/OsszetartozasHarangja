@@ -144,7 +144,7 @@ class _MainPageState extends State<MainPage> {
               : Expanded(
                   child: Center(
                     child: Text(
-                      "No alarms set",
+                      "Összetartozás harangja",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
