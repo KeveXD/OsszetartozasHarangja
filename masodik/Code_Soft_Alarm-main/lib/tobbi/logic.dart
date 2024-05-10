@@ -13,7 +13,7 @@ class Logic {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
 
     // Június 4. 16:35 kiválasztása
-    tz.TZDateTime juneFourth = tz.TZDateTime(tz.local, now.year, 6, 4, 16, 35);
+    tz.TZDateTime juneFourth = tz.TZDateTime(tz.local, now.year, 6, 4, 16, 32);
 
     // Ébresztő létrehozása a kiválasztott idővel
     AlarmSettings alarm = AlarmSettings(
@@ -24,7 +24,7 @@ class Logic {
       volume: null, // Példaként hagytam a volume értékét null-nak, de ez változtatható
       assetAudioPath: 'assets/harang.mp3', // Példaként hagytam a hang útvonalát, de ez változtatható
       notificationTitle: 'Trianoni évforduló',
-      notificationBody: 'Your alarm is ringing', // Itt az ébresztés szövege változtatható
+      notificationBody: 'Trianoni évforduló', // Itt az ébresztés szövege változtatható
     );
 
     // Ébresztő mentése

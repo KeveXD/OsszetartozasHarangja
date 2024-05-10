@@ -16,6 +16,7 @@ dependencies:
   simple_ripple_animation: ^0.0.9
   timezone: ^0.9.3
   flutter_svg: ^2.0.10+1
+  flutter_local_notifications: ^17.1.2
 
 dev_dependencies:
   flutter_test:

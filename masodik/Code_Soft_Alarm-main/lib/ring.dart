@@ -9,6 +9,10 @@ class ExampleAlarmRingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Kiszámoljuk a trianoni évforduló évszámát
+    int currentYear = DateTime.now().year;
+    int trianonAnniversary = currentYear - 1920;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -29,6 +33,10 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                   "Trianoni évforduló",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
+                Text(
+                  "$trianonAnniversary. trianoni évforduló",
+                  style: TextStyle(fontSize: 20),
+                ), // Hozzáadva a trianoni évforduló számának megjelenítése
                 SwingAnimation(
                   child: Text("🔔", style: TextStyle(fontSize: 70)),
                 ),
@@ -76,6 +84,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
     );
   }
 }
+
 
 class SwingAnimation extends StatefulWidget {
   final Widget child;

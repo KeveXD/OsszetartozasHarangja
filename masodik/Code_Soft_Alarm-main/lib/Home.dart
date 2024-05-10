@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> {
     subscription ??= Alarm.ringStream.stream.listen(
           (alarmSettings) => navigateToRingScreen(alarmSettings),
     );
+
   }
 
   void harangokBetoltese() {
@@ -92,7 +93,6 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
