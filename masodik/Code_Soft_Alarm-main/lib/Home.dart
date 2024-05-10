@@ -11,6 +11,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -91,63 +93,92 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 100),
-            Center(child: Realtime()),
-            SizedBox(height: 60),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () => navigateToAlarmScreen(null),
-                  icon: Icon(Icons.add),
-                ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromRGBO(34, 66, 82, 1.0), // Sötétkék (RGB: 0, 0, 139)
+                Color.fromRGBO(124, 163, 178, 1.0), // Világoskék (RGB: 173, 216, 230)
+
               ],
             ),
-            harangok.isNotEmpty
-                ? Expanded(
-              child: ListView.builder(
-                itemCount: harangok.length,
-                itemBuilder: (context, index) {
-                  return _buildHarangKartya(harangok[index], index);
-                },
-              ),
-            )
-                : Expanded(
-              child: Column(
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              const Center(child: Realtime()),
+              SizedBox(height: 60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    "Összetartozás harangja",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      bool success = await Logic.createAndSaveAlarm();
-                      if (success) harangokBetoltese();
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    child: Text(
-                      "Blablabla",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  IconButton(
+                    onPressed: () => navigateToAlarmScreen(null),
+                    icon: const Icon(Icons.add),
                   ),
                 ],
               ),
-            ),
-          ],
+              harangok.isNotEmpty
+                  ? Expanded(
+                child: ListView.builder(
+                  itemCount: harangok.length,
+                  itemBuilder: (context, index) {
+                    return _buildHarangKartya(harangok[index], index);
+                  },
+                ),
+              )
+                  : Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      "Összetartozás harangja",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () async {
+                        bool success = await Logic.createAndSaveAlarm();
+                        if (success) harangokBetoltese();
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      child: const Text(
+                        "Harang felvétele",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
+
+
   Widget _buildHarangKartya(AlarmSettings alarm, int index) {
     TimeOfDay time = TimeOfDay.fromDateTime(alarm.dateTime);
     String formattedDate = DateFormat('EEEE, dd MMM', 'hu_HU').format(alarm.dateTime);
+
+    DateTime now = DateTime.now();
+    DateTime alarmDate = alarm.dateTime;
+    Duration difference = alarmDate.difference(now);
+    int daysUntilAlarm = difference.inDays;
+
+    String countdownText;
+    if (daysUntilAlarm == 0) {
+      countdownText = "Ma";
+    } else {
+      countdownText = "$daysUntilAlarm nap";
+    }
+
     return GestureDetector(
       onTap: () => navigateToAlarmScreen(harangok[index]),
       child: Slidable(
@@ -164,39 +195,63 @@ class _MainPageState extends State<MainPage> {
           )
         ]),
         child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(""),
-              ListTile(
-                splashColor: null,
-                dense: true,
-                minVerticalPadding: 10,
-                horizontalTitleGap: 10,
-                enabled: false,
-                // onLongPress: () {
-                //   // print("object");
-                // },
-                title: Row(
-                  children: [
-                    Text(
-                      "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} ",
-                      style: Theme.of(context).textTheme.headlineLarge,
-                      textAlign: TextAlign.start,
-                    ),
-                    const Expanded(child: Text("")),
-                    Text(formattedDate.toString()),
-                  ],
+          elevation: 4,
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
+            width: double.infinity,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
+                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        formattedDate,
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Harangozás",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        countdownText,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: daysUntilAlarm == 0 ? Colors.red : Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // const SlideTransitionExample()
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.doorbell_rounded,
+                    size: 120,
+                    color: Colors.grey.shade600, // Halványabb szín
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+
+
+
+
 }

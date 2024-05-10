@@ -62,7 +62,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        "Vége",
+                        "Leállítás",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),

@@ -43,18 +43,38 @@ class _RealtimeState extends State<Realtime> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           String formattedTime = DateFormat('HH:mm:ss', 'hu').format(snapshot.data!); // Magyar időzóna beállítása
+          String formattedDate = DateFormat('yyyy. MM. dd.', 'hu').format(snapshot.data!); // Magyar dátum formázása
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Magyar idő",
-                style: Theme.of(context).textTheme.headline5,
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Dátum: ",
+                    style: TextStyle(color: Colors.grey, fontSize: 24,),
+                  ),
+                  Text(
+                    formattedDate,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              Text(
-                formattedTime,
-                style: Theme.of(context).textTheme.headline4,
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Magyar idő: ",
+                    style: TextStyle(color: Colors.grey, fontSize: 24,),
+                  ),
+                  Text(
+                    formattedTime,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           );
@@ -62,14 +82,33 @@ class _RealtimeState extends State<Realtime> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Magyar idő",
-                style: Theme.of(context).textTheme.headline5,
-              ),
               SizedBox(height: 10),
-              Text(
-                "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                style: Theme.of(context).textTheme.headline4,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Dátum: ",
+                    style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Magyar idő: ",
+                    style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
+                    style: TextStyle(color:  Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           );
