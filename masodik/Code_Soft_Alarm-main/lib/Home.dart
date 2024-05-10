@@ -98,7 +98,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -111,9 +111,9 @@ class _MainPageState extends State<MainPage> {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 100),
+              const SizedBox(height: 20),
               const Center(child: Realtime()),
-              SizedBox(height: 60),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -136,23 +136,65 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   children: [
                     Text(
-                      "Összetartozás harangja",
+                      "",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     SizedBox(height: 10),
-                    ElevatedButton(
+                    ElevatedButton.icon(
                       onPressed: () async {
                         bool success = await Logic.createAndSaveAlarm();
                         if (success) harangokBetoltese();
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      child: const Text(
-                        "Harang felvétele",
-                        style: TextStyle(color: Colors.white),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(141, 77, 72, 1.0), // Háttérszín beállítása
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margó beállítása
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30), // Gomb alakjának beállítása
+                        ),
+                      ),
+                      label: Text(
+                        "Összharang",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      icon: Icon(Icons.notifications, size: 30, color: Color.fromRGBO(34, 66, 82, 1.0)
+                          ,), // Harang ikon hozzáadása
+
+                    ),
+
+                    SizedBox(height: 20),
+                    const Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Vegyük kezünkbe a trianoni emlékharangozást!",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "1920. június 4-én, 16:32 perckor aláírták a trianoni békediktátumot a versailles-i Nagy-Trianon kastély 52 méter hosszú és 7 méter széles folyosóján, a La galérie des Cotelle-ben.",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Ezen a napon Magyarország elveszítette területének kétharmadát, a magyar népesség egyharmada pedig a határokon kívülre került. Ennek emlékére évekig országszerte megszólaltak a templomharangok ebben az időben. Ez a hagyomány azonban 1945 után teljesen megszűnt. 2012-ben a három, nagy keresztény egyház visszautasította azt a kormányzati kérést, hogy június 4-én, a Nemzeti Összetartozás Napján délután, a trianoni szerződés aláírásának időpontjában konduljanak meg a templomok harangjai, s szóljanak egy percig a megemlékezés részeként.",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Ezért gondoltuk úgy, hogy saját kezünkbe kell venni ennek a harangozásnak \"feladatát.",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            // A további szövegeket itt folytathatod...
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
+
               ),
             ],
           ),
@@ -180,7 +222,7 @@ class _MainPageState extends State<MainPage> {
     }
 
     return GestureDetector(
-      onTap: () => navigateToAlarmScreen(harangok[index]),
+      //onTap: () => navigateToAlarmScreen(harangok[index]),
       child: Slidable(
         closeOnScroll: true,
         endActionPane: ActionPane(extentRatio: 0.4, motion: const ScrollMotion(), children: [

@@ -38,82 +38,93 @@ class _RealtimeState extends State<Realtime> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DateTime>(
-      stream: _clockStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          String formattedTime = DateFormat('HH:mm:ss', 'hu').format(snapshot.data!); // Magyar időzóna beállítása
-          String formattedDate = DateFormat('yyyy. MM. dd.', 'hu').format(snapshot.data!); // Magyar dátum formázása
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/time.png', // A naptár ikon képe
+            color: Colors.white.withOpacity(0.1), // Halvány szín
+            fit: BoxFit.contain, // A kép kisebb méretre tömörítése, hogy beférjen a widgetbe
+          ),
+        ),
+        StreamBuilder<DateTime>(
+          stream: _clockStreamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              String formattedTime = DateFormat('HH:mm:ss', 'hu').format(snapshot.data!); // Magyar időzóna beállítása
+              String formattedDate = DateFormat('yyyy. MM. dd.', 'hu').format(snapshot.data!); // Magyar dátum formázása
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Dátum: ",
-                    style: TextStyle(color: Colors.grey, fontSize: 24,),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "",
+                        style: TextStyle(color: Colors.grey, fontSize: 24,),
+                      ),
+                      Text(
+                        formattedDate,
+                        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    formattedDate,
-                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "",
+                        style: TextStyle(color: Colors.grey, fontSize: 24,),
+                      ),
+                      Text(
+                        formattedTime,
+                        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              );
+            } else {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Magyar idő: ",
-                    style: TextStyle(color: Colors.grey, fontSize: 24,),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "",
+                        style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
+                        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    formattedTime,
-                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "",
+                        style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
+                        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          );
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Dátum: ",
-                    style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
-                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Magyar idő: ",
-                    style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                    style: TextStyle(color:  Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
-      },
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }
