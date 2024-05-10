@@ -75,8 +75,8 @@ class _EditPageState extends State<EditPage> {
       vibrate: vibrate,
       volume: volume,
       assetAudioPath: assetAudio,
-      notificationTitle: 'Trianoni évforduló',
-      notificationBody: 'blablablabla',
+      notificationTitle: 'Összharang',
+      notificationBody: 'Trianoni Évforduló',
     );
     return alarmSettings;
   }

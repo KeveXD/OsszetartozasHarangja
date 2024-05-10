@@ -140,28 +140,31 @@ class _MainPageState extends State<MainPage> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     SizedBox(height: 10),
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        bool success = await Logic.createAndSaveAlarm();
-                        if (success) harangokBetoltese();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(141, 77, 72, 1.0), // Háttérszín beállítása
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margó beállítása
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30), // Gomb alakjának beállítása
-                        ),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      bool success = await Logic.createAndSaveAlarm();
+                      if (success) harangokBetoltese();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(141, 77, 72, 1.0), // Háttérszín beállítása
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margó beállítása
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30), // Gomb alakjának beállítása
                       ),
-                      label: Text(
-                        "Összharang",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                      icon: Icon(Icons.notifications, size: 30, color: Color.fromRGBO(34, 66, 82, 1.0)
-                          ,), // Harang ikon hozzáadása
-
                     ),
+                    label: const Text(
+                      "Összharang",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    icon: const Icon(
+                      Icons.notifications,
+                      size: 30,
+                      color: Color.fromRGBO(34, 66, 82, 1.0),
+                    ), // Harang ikon hozzáadása
+                  ),
 
-                    SizedBox(height: 20),
+
+                  SizedBox(height: 20),
                     const Expanded(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.all(20),
