@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,26 @@ class ExampleAlarmRingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Kiszámoljuk a trianoni évforduló évszámát
+    int currentYear = DateTime.now().year;
+    int trianonAnniversary = currentYear - 1920;
+
+    // Kiszámoljuk a csengés időtartamát másodpercben
+    int ringingDuration = currentYear - 1920;
+
+    // Automatikus leállítás a kiszámolt időtartam után
+    Timer(Duration(seconds: ringingDuration), () async {
+      await Alarm.stop(alarmSettings.id);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+    });
+
     return Scaffold(
       body: Stack(
         children: [
           Opacity(
-            opacity: 0.3, // Átlátszóság beállítása
+            opacity: 0.3,
             child: Image.asset(
               'assets/logo2.jpg', // Háttérkép elérési útja
               fit: BoxFit.cover,
@@ -28,6 +44,10 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                 Text(
                   "Trianoni évforduló",
                   style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  "$trianonAnniversary. trianoni évforduló",
+                  style: TextStyle(fontSize: 20),
                 ),
                 SwingAnimation(
                   child: Text("🔔", style: TextStyle(fontSize: 70)),
@@ -62,7 +82,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        "Vége",
+                        "Leállítás",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
