@@ -37,8 +37,8 @@ class _EditPageState extends State<EditPage> {
       valasztottDatum = valasztottDatum.copyWith(second: 0, millisecond: 0);
       loopAudio = true;
       vibrate = false;
-      volume = null; //lehet valtoztatni
-      assetAudio = 'assets/harang.mp3';
+      volume = 1; //joo
+      assetAudio = 'assets/harang3.mp3';
     } else {
       valasztottDatum = widget.alarmSettings!.dateTime;
       loopAudio = widget.alarmSettings!.loopAudio;
@@ -235,8 +235,7 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  //egy adott idopontot allit be String->DateTime
-  //valasztottDatum frissul
+
   void _time() {
     String timeString = "$hour:$minute";
 

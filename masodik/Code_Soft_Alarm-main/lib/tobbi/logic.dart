@@ -5,17 +5,25 @@ import 'package:timezone/timezone.dart' as tz;
 
 class Logic {
   static Future<bool> createAndSaveAlarm() async {
-    // Időzóna adatbázis inicializálása
+    // Initialize time zones
     tz.initializeTimeZones();
 
-    // Aktuális időzóna meghatározása
-    final String? location = tz.local.name;
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    // Define the location for Budapest
+    final String location = 'Europe/Budapest';
+    final tz.Location budapest = tz.getLocation(location);
 
-    // Június 4. 16:35 kiválasztása
-    tz.TZDateTime juneFourth = tz.TZDateTime(tz.local, now.year, 6, 4, 16, 32);
+    // Get the current time in the Budapest time zone
+    final tz.TZDateTime now = tz.TZDateTime.now(budapest);
 
-    // Ébresztő létrehozása a kiválasztott idővel
+    // Set the alarm time to June 4th, 16:32 in the Budapest time zone
+    tz.TZDateTime juneFourth = tz.TZDateTime(budapest, now.year, 6, 4, 16, 32);
+
+    // If the alarm time for this year has already passed, set it for next year
+    if (juneFourth.isBefore(now)) {
+      juneFourth = tz.TZDateTime(budapest, now.year + 1, 6, 4, 16, 32);
+    }
+
+    // Create the alarm settings
     AlarmSettings alarm = AlarmSettings(
       id: DateTime.now().millisecondsSinceEpoch % 10000,
       dateTime: juneFourth,
@@ -24,10 +32,10 @@ class Logic {
       volume: 1.0,
       assetAudioPath: 'assets/harang.mp3',
       notificationTitle: 'Trianoni évforduló',
-      notificationBody: 'Trianoni évforduló',
+      notificationBody: 'Emlékezzünk a trianoni évfordulóra',
     );
 
-
+    // Set the alarm
     bool success = await Alarm.set(alarmSettings: alarm);
     return success;
   }

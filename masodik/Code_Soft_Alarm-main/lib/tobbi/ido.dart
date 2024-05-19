@@ -63,7 +63,7 @@ class _RealtimeState extends State<Realtime> {
                           "",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 30,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
                             shadows: [
@@ -78,8 +78,8 @@ class _RealtimeState extends State<Realtime> {
                         Text(
                           formattedDate,
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
+                            color: Colors.white,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
                             shadows: [
@@ -93,14 +93,14 @@ class _RealtimeState extends State<Realtime> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
@@ -116,7 +116,7 @@ class _RealtimeState extends State<Realtime> {
                         Text(
                           formattedTime,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása

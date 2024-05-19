@@ -110,9 +110,9 @@ class _MainPageState extends State<MainPage> {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 0),
               const Center(child: Realtime()),
-              const SizedBox(height: 20),
+              const SizedBox(height: 0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -228,11 +228,9 @@ class _MainPageState extends State<MainPage> {
     int minutesUntilAlarm = difference.inMinutes.remainder(60);
 
     String countdownText;
-    if (daysUntilAlarm == 0 && hoursUntilAlarm == 0 && minutesUntilAlarm == 0) {
-      countdownText = "Ma";
-    } else {
-      countdownText = "${daysUntilAlarm} nap ${hoursUntilAlarm} óra ${minutesUntilAlarm} perc";
-    }
+
+      countdownText = "${daysUntilAlarm} nap ${hoursUntilAlarm} óra ${minutesUntilAlarm} perc múlva";
+
 
     return GestureDetector(
       //onTap: () => navigateToAlarmScreen(harangok[index]),
@@ -282,7 +280,7 @@ class _MainPageState extends State<MainPage> {
                     Text(
                       countdownText,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 15,
                         color: daysUntilAlarm == 0 && hoursUntilAlarm == 0 && minutesUntilAlarm == 0
                             ? Colors.red
                             : Colors.grey,
