@@ -17,7 +17,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
       body: Stack(
         children: [
           Opacity(
-            opacity: 0.3, // Átlátszóság beállítása
+            opacity: 0.3,
             child: Image.asset(
               'assets/logo2.jpg', // Háttérkép elérési útja
               fit: BoxFit.cover,
@@ -36,7 +36,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                 Text(
                   "$trianonAnniversary. trianoni évforduló",
                   style: TextStyle(fontSize: 20),
-                ), // Hozzáadva a trianoni évforduló számának megjelenítése
+                ),
                 SwingAnimation(
                   child: Text("🔔", style: TextStyle(fontSize: 70)),
                 ),

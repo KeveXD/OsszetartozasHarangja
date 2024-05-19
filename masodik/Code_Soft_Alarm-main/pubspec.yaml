@@ -35,4 +35,6 @@ flutter:
 
   assets:
     - assets/logo1.png
+    - assets/logo2.jpg
+    - assets/harang.mp3
     - assets/harang3.mp3

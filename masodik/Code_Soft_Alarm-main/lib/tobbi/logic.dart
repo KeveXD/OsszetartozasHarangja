@@ -21,13 +21,13 @@ class Logic {
       dateTime: juneFourth,
       loopAudio: true,
       vibrate: false,
-      volume: null,
-      assetAudioPath: 'assets/harang3.mp3',
+      volume: 1.0,
+      assetAudioPath: 'assets/harang.mp3',
       notificationTitle: 'Trianoni évforduló',
       notificationBody: 'Trianoni évforduló',
     );
 
-    // Ébresztő mentése
+
     bool success = await Alarm.set(alarmSettings: alarm);
     return success;
   }

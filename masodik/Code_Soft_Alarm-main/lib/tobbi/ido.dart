@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class Realtime extends StatefulWidget {
-  const Realtime({Key? key});
+  const Realtime({super.key});
 
   @override
   _RealtimeState createState() => _RealtimeState();
@@ -18,7 +18,7 @@ class _RealtimeState extends State<Realtime> {
   @override
   void initState() {
     super.initState();
-    initializeDateFormatting('hu', null); // Magyar nyelv beállítása
+    initializeDateFormatting('hu', null);
     _clockStreamController = StreamController<DateTime>();
     _startClock();
   }
