@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> {
               const SizedBox(height: 0),
               const Center(child: Realtime()),
               const SizedBox(height: 0),
-              Row(
+             /* Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> {
                     icon: const Icon(Icons.add),
                   ),
                 ],
-              ),
+              ),*/
               harangok.isNotEmpty
                   ? Expanded(
                 child: ListView.builder(
@@ -192,8 +192,8 @@ class _MainPageState extends State<MainPage> {
                                   "Miután a trianoni emléknapját és a Nemzeti Összetartozás Napját együtt kell reprezentálnia, ezért ez az applikáció az ÖSSZHARANG nevet kapta. Egyszerre szól az emlékezés és a jövőbe vetett hitünk, összetartozásunk hangján. Bárhol is érjen ezen harangozás pillanata, állj meg egy percre és tartsd magasba a telefonod. Lesznek, akik majd megkérdezik, mire vélhetik ezt a jelenetet. Akkor lehet-kell elmondani, hogy 1920-ban, ebben a pillanatban veszített el Magyarország területének háromnegyedét. Kifejthetjük a szükséges részletességig nemzeti tragédiánk hátterét.\n"
                                   "Ugyanakkor a harang azokért is szól, akik kint rekedtek a magyar határokon túl és idegen hatalmak, országok polgáraiként élik azóta is életüket. Nem felejtjük el, hogy mindezek ellenére mi összetartozunk. Magyarország, a magyar nemzet egy és oszthatatlan.\n"
                                   "Ezt az applikációt ki lehet kapcsolni, ha valaki előre látja, hogy\n"
-                                  "a harangozás idején, zavarná az aktuális programjában. A telefon egy héttel, és később egy nappal a harangozást megelőzően még\n"
-                                  "rákérdez a kikapcsolás szükségességére. Kérlek add tovább ennek az applikációnak hírét, hogy minél több honfitárunkkal együtt emlékezhessünk és emlékeztethessünk!\n\n"
+                                  "a harangozás idején, zavarná az aktuális programjában. \n"
+                                  "Kérlek add tovább ennek az applikációnak hírét, hogy minél több honfitárunkkal együtt emlékezhessünk és emlékeztethessünk!\n\n"
                                   "Szilágyi Ákos – 56 Lángja Alapítvány\n"
                                   "osszharang.com",
                               style: TextStyle(fontSize: 16),
