@@ -40,7 +40,7 @@ class _RealtimeState extends State<Realtime> {
   Widget build(BuildContext context) {
     return Container(
       width: 200,
-      height: 200,
+      height: 180,
       child: Stack(
         children: [
           StreamBuilder<DateTime>(
@@ -55,39 +55,29 @@ class _RealtimeState extends State<Realtime> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 67),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto', // Betűtípus beállítása
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          formattedDate,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
+
+                          ),
+                        ),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
                             shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
+
                             ],
                           ),
                         ),
@@ -97,7 +87,7 @@ class _RealtimeState extends State<Realtime> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "",
                           style: TextStyle(
                             color: Colors.white,
@@ -105,11 +95,7 @@ class _RealtimeState extends State<Realtime> {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
                             shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
+
                             ],
                           ),
                         ),
@@ -121,11 +107,7 @@ class _RealtimeState extends State<Realtime> {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto', // Betűtípus beállítása
                             shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
+
                             ],
                           ),
                         ),
