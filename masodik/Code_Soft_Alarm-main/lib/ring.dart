@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,17 @@ class ExampleAlarmRingScreen extends StatelessWidget {
     // Kiszámoljuk a trianoni évforduló évszámát
     int currentYear = DateTime.now().year;
     int trianonAnniversary = currentYear - 1920;
+
+    // Kiszámoljuk a csengés időtartamát másodpercben
+    int ringingDuration = currentYear - 1920;
+
+    // Automatikus leállítás a kiszámolt időtartam után
+    Timer(Duration(seconds: ringingDuration), () async {
+      await Alarm.stop(alarmSettings.id);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+    });
 
     return Scaffold(
       body: Stack(
@@ -84,7 +96,6 @@ class ExampleAlarmRingScreen extends StatelessWidget {
     );
   }
 }
-
 
 class SwingAnimation extends StatefulWidget {
   final Widget child;

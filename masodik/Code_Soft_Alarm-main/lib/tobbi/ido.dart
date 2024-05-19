@@ -66,11 +66,11 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.grey, fontSize: 24,),
+                          style: TextStyle(color: Colors.black, fontSize: 24,),
                         ),
                         Text(
                           formattedDate,
-                          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -80,11 +80,11 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.grey, fontSize: 24,),
+                          style: TextStyle(color: Colors.black, fontSize: 24,),
                         ),
                         Text(
                           formattedTime,
-                          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -100,11 +100,11 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
-                          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -114,11 +114,11 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         const Text(
                           "",
-                          style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
