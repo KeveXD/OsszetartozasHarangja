@@ -10,6 +10,7 @@ dependencies:
   alarm: ^3.0.8
   flutter:
     sdk: flutter
+  google_fonts: ^2.0.0
   flutter_slidable: ^3.0.1
   intl: ^0.19.0
   permission_handler: ^11.2.1

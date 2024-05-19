@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class Realtime extends StatefulWidget {
-  const Realtime({super.key});
+  const Realtime({Key? key}) : super(key: key);
 
   @override
   _RealtimeState createState() => _RealtimeState();
@@ -54,8 +54,10 @@ class _RealtimeState extends State<Realtime> {
             stream: _clockStreamController.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                String formattedTime = DateFormat('HH:mm:ss', 'hu').format(snapshot.data!); // Magyar időzóna beállítása
-                String formattedDate = DateFormat('yyyy. MM. dd.', 'hu').format(snapshot.data!); // Magyar dátum formázása
+                String formattedTime =
+                DateFormat('HH:mm:ss', 'hu').format(snapshot.data!); // Magyar időzóna beállítása
+                String formattedDate =
+                DateFormat('yyyy. MM. dd.', 'hu').format(snapshot.data!); // Magyar dátum formázása
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,11 +68,35 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.black, fontSize: 24,),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
                           formattedDate,
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -80,11 +106,35 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.black, fontSize: 24,),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
                           formattedTime,
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -100,11 +150,35 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         Text(
                           "",
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
                           "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -114,11 +188,35 @@ class _RealtimeState extends State<Realtime> {
                       children: [
                         const Text(
                           "",
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
                           "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto', // Betűtípus beállítása
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5,
+                                color: Colors.white.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
