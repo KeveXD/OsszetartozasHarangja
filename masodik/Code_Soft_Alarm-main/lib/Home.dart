@@ -175,7 +175,7 @@ class _MainPageState extends State<MainPage> {
                             SizedBox(height: 10),
                             Text(
                               "http://osszharang.com",
-                              style: TextStyle(fontSize: 16, color: Colors.blue, decoration: TextDecoration.underline),
+                              style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
                             ),
                             SizedBox(height: 10),
                             Text(

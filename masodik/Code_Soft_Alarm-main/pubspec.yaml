@@ -10,13 +10,13 @@ dependencies:
   alarm: ^3.0.8
   flutter:
     sdk: flutter
-  google_fonts: ^2.0.0
+  google_fonts: 6.2.1
   flutter_slidable: ^3.0.1
   intl: ^0.19.0
   permission_handler: ^11.2.1
   simple_ripple_animation: ^0.0.9
   timezone: ^0.9.3
-  flutter_svg: ^2.0.10+1
+  flutter_svg: 2.0.9
   flutter_local_notifications: ^17.1.2
 
 dev_dependencies:

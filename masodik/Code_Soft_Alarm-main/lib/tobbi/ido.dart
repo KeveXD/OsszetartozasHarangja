@@ -43,13 +43,6 @@ class _RealtimeState extends State<Realtime> {
       height: 200,
       child: Stack(
         children: [
-          /*Positioned.fill(
-            child: Image.asset(
-              'assets/time.png', // A naptár ikon képe
-              color: Colors.white.withOpacity(0.1), // Halvány szín
-              fit: BoxFit.cover, // A kép kiterjesztése a teljes Stack méretére
-            ),
-          ),*/
           StreamBuilder<DateTime>(
             stream: _clockStreamController.stream,
             builder: (context, snapshot) {
@@ -141,87 +134,7 @@ class _RealtimeState extends State<Realtime> {
                   ],
                 );
               } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto', // Betűtípus beállítása
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          "${DateTime.now().year}. ${DateTime.now().month}. ${DateTime.now().day}.",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto', // Betűtípus beállítása
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto', // Betűtípus beállítása
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white,
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto', // Betűtípus beállítása
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5,
-                                color: Colors.white.withOpacity(0.5),
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
+                return Container();
               }
             },
           ),
