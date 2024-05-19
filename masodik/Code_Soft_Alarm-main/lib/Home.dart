@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> {
               const SizedBox(height: 0),
               const Center(child: Realtime()),
               const SizedBox(height: 0),
-              /*Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> {
                     icon: const Icon(Icons.add),
                   ),
                 ],
-              ),*/
+              ),
               harangok.isNotEmpty
                   ? Expanded(
                 child: ListView.builder(
@@ -145,14 +145,14 @@ class _MainPageState extends State<MainPage> {
                         if (success) harangokBetoltese();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(141, 77, 72, 1.0), // Háttérszín beállítása
+                        backgroundColor: const Color.fromRGBO(0, 117, 64, 1.0), // Háttérszín beállítása
                         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margó beállítása
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30), // Gomb alakjának beállítása
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       label: const Text(
-                        "Összharang",
+                        "Harang bekapcsolása",
                         style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       icon: const Icon(
@@ -175,7 +175,7 @@ class _MainPageState extends State<MainPage> {
                             SizedBox(height: 10),
                             Text(
                               "http://osszharang.com",
-                              style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
+                              style: TextStyle(fontSize: 16, color: Colors.white,),
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -247,6 +247,8 @@ class _MainPageState extends State<MainPage> {
                 harangokBetoltese();
               },
               icon: Icons.delete_forever,
+              label: 'Harang kikapcsolás',
+
               backgroundColor: Colors.red.shade700,
             )
           ],
