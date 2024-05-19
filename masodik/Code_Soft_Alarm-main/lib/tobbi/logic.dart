@@ -27,7 +27,7 @@ class Logic {
       notificationBody: 'Your alarm is ringing', // Itt az ébresztés szövege változtatható
     );
 
-    // Ébresztő mentése
+
     bool success = await Alarm.set(alarmSettings: alarm);
     return success;
   }
