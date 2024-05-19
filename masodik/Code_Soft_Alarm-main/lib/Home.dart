@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> {
               const SizedBox(height: 0),
               const Center(child: Realtime()),
               const SizedBox(height: 0),
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> {
                     icon: const Icon(Icons.add),
                   ),
                 ],
-              ),
+              ),*/
               harangok.isNotEmpty
                   ? Expanded(
                 child: ListView.builder(
