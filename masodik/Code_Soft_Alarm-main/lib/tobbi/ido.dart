@@ -43,13 +43,13 @@ class _RealtimeState extends State<Realtime> {
       height: 200,
       child: Stack(
         children: [
-          Positioned.fill(
+          /*Positioned.fill(
             child: Image.asset(
               'assets/time.png', // A naptár ikon képe
               color: Colors.white.withOpacity(0.1), // Halvány szín
               fit: BoxFit.cover, // A kép kiterjesztése a teljes Stack méretére
             ),
-          ),
+          ),*/
           StreamBuilder<DateTime>(
             stream: _clockStreamController.stream,
             builder: (context, snapshot) {

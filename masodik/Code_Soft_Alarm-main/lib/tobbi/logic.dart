@@ -19,12 +19,12 @@ class Logic {
     AlarmSettings alarm = AlarmSettings(
       id: DateTime.now().millisecondsSinceEpoch % 10000,
       dateTime: juneFourth,
-      loopAudio: true, // Példaként hagytam a loopAudio értékét true-nak, de ez változtatható
-      vibrate: false, // Példaként hagytam a vibrate értékét false-nak, de ez változtatható
-      volume: null, // Példaként hagytam a volume értékét null-nak, de ez változtatható
-      assetAudioPath: 'assets/harang.mp3', // Példaként hagytam a hang útvonalát, de ez változtatható
+      loopAudio: true,
+      vibrate: false,
+      volume: null,
+      assetAudioPath: 'assets/harang3.mp3',
       notificationTitle: 'Trianoni évforduló',
-      notificationBody: 'Trianoni évforduló', // Itt az ébresztés szövege változtatható
+      notificationBody: 'Trianoni évforduló',
     );
 
     // Ébresztő mentése

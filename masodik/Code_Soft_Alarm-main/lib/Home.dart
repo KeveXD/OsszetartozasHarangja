@@ -228,63 +228,65 @@ class _MainPageState extends State<MainPage> {
       //onTap: () => navigateToAlarmScreen(harangok[index]),
       child: Slidable(
         closeOnScroll: true,
-        endActionPane: ActionPane(extentRatio: 0.4, motion: const ScrollMotion(), children: [
-          SlidableAction(
-            borderRadius: BorderRadius.circular(12),
-            onPressed: (context) {
-              Alarm.stop(alarm.id);
-              harangokBetoltese();
-            },
-            icon: Icons.delete_forever,
-            backgroundColor: Colors.red.shade700,
-          )
-        ]),
+        endActionPane: ActionPane(
+          extentRatio: 0.4,
+          motion: const ScrollMotion(),
+          children: [
+            SlidableAction(
+              borderRadius: BorderRadius.circular(12),
+              onPressed: (context) {
+                Alarm.stop(alarm.id);
+                harangokBetoltese();
+              },
+              icon: Icons.delete_forever,
+              backgroundColor: Colors.red.shade700,
+            )
+          ],
+        ),
         child: Card(
           elevation: 4,
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          child: Container(
-            width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      formattedDate,
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Harangozás",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      countdownText,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: daysUntilAlarm == 0 ? Colors.red : Colors.grey,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        formattedDate,
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        "Harangozás",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        countdownText,
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: daysUntilAlarm == 0 ? Colors.red : Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.doorbell_rounded,
-                    size: 120,
-                    color: Colors.grey.shade600, // Halványabb szín
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Image.asset(
+                      'assets/logo1.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ],
@@ -294,6 +296,8 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+
 
 
 
