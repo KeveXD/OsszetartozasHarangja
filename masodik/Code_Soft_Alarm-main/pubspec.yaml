@@ -10,11 +10,14 @@ dependencies:
   alarm: ^3.0.8
   flutter:
     sdk: flutter
+  google_fonts: 6.2.1
   flutter_slidable: ^3.0.1
   intl: ^0.19.0
   permission_handler: ^11.2.1
   simple_ripple_animation: ^0.0.9
   timezone: ^0.9.3
+  flutter_svg: 2.0.9
+  flutter_local_notifications: ^17.1.2
 
 dev_dependencies:
   flutter_test:
@@ -23,13 +26,16 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: "AppIcon"
-  adaptive_icon_foreground: "assets/logo1.png"
+  android: "assets/logo2.png"
+  ios: "assets/logo2.png"
+  adaptive_icon_foreground: "assets/logo2.png"
 
 
 flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/logo1.png
+    - assets/logo2.jpg
+    - assets/harang.mp3
+    - assets/harang3.mp3
