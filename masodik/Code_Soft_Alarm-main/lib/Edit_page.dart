@@ -89,7 +89,7 @@ class _EditPageState extends State<EditPage> {
 
 //FONOTOS
   //todo
-  void createAndSaveAlarm() {
+  /*void createAndSaveAlarm() {
     // Június 4. 16:34 kiválasztása
     DateTime juneFourth = DateTime(DateTime.now().year, 6, 4, 16, 34);
 
@@ -115,7 +115,7 @@ class _EditPageState extends State<EditPage> {
         print('Hiba történt az ébresztő létrehozása és mentése közben!');
       }
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

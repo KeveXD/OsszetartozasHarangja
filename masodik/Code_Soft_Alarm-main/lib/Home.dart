@@ -108,6 +108,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
+<<<<<<< Updated upstream
             harangok.isNotEmpty
                 ? Expanded(
               child: ListView.builder(
@@ -119,6 +120,16 @@ class _MainPageState extends State<MainPage> {
             )
                 : Expanded(
               child: Column(
+=======
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 0),
+              const Center(child: Realtime()),
+              const SizedBox(height: 0),
+            /* Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+>>>>>>> Stashed changes
                 children: [
                   Text(
                     "Összetartozás harangja",
