@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // Saját fájlok importja
-import 'theme.dart';
+import 'constants/theme.dart';
 
 class BeallitasokPage extends StatefulWidget {
   const BeallitasokPage({Key? key}) : super(key: key);
