@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 // Saját fájlok importja
-
 import '../beallitasok.dart';
 import '../constants/strings.dart';
 import '../constants/theme.dart';
@@ -84,10 +83,34 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // --- DINAMIKUS KÉP VÁLASZTÓ LOGIKA ---
+  Widget _getBellImage(HomeProvider provider) {
+    String imagePath;
+
+    if (provider.isRinging) {
+      imagePath = provider.isPaused
+          ? 'assets/deliharangfolytatas.png'
+          : 'assets/deliharang.gif';
+    } else {
+      imagePath = provider.isNoonBellActive
+          ? 'assets/deliharangbekapcsolva.png'
+          : 'assets/deliharangkikapcsolva.png';
+    }
+
+    return ClipRRect(
+      key: ValueKey<String>(imagePath), // Ez a kulcs kell a szép átúsztató animációhoz!
+      borderRadius: BorderRadius.circular(8),
+      child: Image.asset(
+        imagePath,
+        height: 60,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
   // --- UI ÉPÍTÉS ---
   @override
   Widget build(BuildContext context) {
-    // ITT CSATLAKOZUNK RÁ A PROVIDERRE (AZ "AGYRA"):
     final provider = context.watch<HomeProvider>();
 
     return Scaffold(
@@ -157,6 +180,7 @@ class HomePage extends StatelessWidget {
 
                       const SizedBox(height: 30),
 
+                      // FELSŐ GOMBOK (Rejtve, ha csörög a harang)
                       if (!provider.isRinging)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +188,7 @@ class HomePage extends StatelessWidget {
                             _buildOutlinedButton(
                               icon: Icons.play_arrow_outlined,
                               label: "Teszt 10mp",
-                              onTap: provider.startImmediateTest, // Provider hívása
+                              onTap: provider.startImmediateTest,
                             ),
                             const SizedBox(width: 15),
                             _buildOutlinedButton(
@@ -180,8 +204,34 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 15),
 
+                      // KÖZÉPSŐ, KATTINTHATÓ (INTERAKTÍV) KÉP
+                      // Ez csörgés közben is látszik, ezért nincs if (!provider.isRinging) mögött!
+                      // KÖZÉPSŐ, KATTINTHATÓ (INTERAKTÍV) KÉP
+                      // Ez csörgés közben is látszik, ezért nincs if (!provider.isRinging) mögött!
+                      GestureDetector(
+                        onTap: () {
+                          if (provider.isRinging) {
+                            // Ha épp harangozik, akkor némít / folytat
+                            provider.togglePause();
+                          } else {
+                            // Ha NEM harangozik, akkor megnyitja a Beállításokat!
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const BeallitasokPage())
+                            ).then((_) => provider.loadSettings());
+                          }
+                        },
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: _getBellImage(provider),
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      // ALSÓ GOMBOK (Rejtve, ha csörög a harang)
                       if (!provider.isRinging)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -222,27 +272,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
 
-                if (provider.isNoonBellActive && !provider.isRinging)
-                  Positioned(
-                    top: 15,
-                    right: 15,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.amberAccent.withOpacity(0.5), width: 1),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(Icons.wb_sunny_outlined, color: Colors.amberAccent, size: 14),
-                          SizedBox(width: 5),
-                          Text("Déli harang", style: TextStyle(color: Colors.amberAccent, fontSize: 11, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
+
               ],
             ),
           ),
@@ -304,6 +334,8 @@ class HomePage extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Ha akarod, ezt az Elnémítás gombot akár el is rejtheted mostantól, hiszen az új kép átvette a funkcióját!
+        // De meghagytam a biztonság kedvéért.
         SizedBox(
           width: 260,
           child: ElevatedButton.icon(

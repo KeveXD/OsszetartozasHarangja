@@ -46,6 +46,10 @@ flutter:
     - assets/harangozas.gif
     - assets/harangborito.png
     - assets/hatter.png
+    - assets/deliharangkikapcsolva.png
+    - assets/deliharangbekapcsolva.png
+    - assets/deliharang.gif
+    - assets/deliharangfolytatas.png
 
 
   uses-material-design: true

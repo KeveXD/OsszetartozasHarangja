@@ -76,6 +76,10 @@ class HomeProvider extends ChangeNotifier {
     if (id == 804) {
       _scheduleNextNoonBell();
     }
+    // ÚJ: A Trianoni harang automatikus újraütemezése jövőre!
+    if (id == 604) {
+      _scheduleNextJun4Bell();
+    }
 
     // Kiszámoljuk az összes másodpercet az ID alapján
     int calculatedSeconds = 0;
@@ -190,5 +194,28 @@ class HomeProvider extends ChangeNotifier {
 
     await Alarm.stop(999);
     await Alarm.set(alarmSettings: testAlarm);
+  }
+
+  Future<void> _scheduleNextJun4Bell() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool vibrate = prefs.getBool('vibration') ?? true;
+    final double volume = prefs.getDouble('volume') ?? 0.8;
+
+    final nowUtc = DateTime.now().toUtc();
+    // Direkt a következő évre ütemezzük
+    DateTime targetUtc = DateTime.utc(nowUtc.year + 1, 6, 4, 14, 32);
+    final targetLocal = targetUtc.toLocal();
+
+    await Alarm.set(alarmSettings: AlarmSettings(
+      id: 604,
+      dateTime: targetLocal,
+      assetAudioPath: 'assets/harangozas2.mp3',
+      loopAudio: true,
+      vibrate: vibrate,
+      volume: volume,
+      notificationTitle: 'ÖsszHarang',
+      notificationBody: 'Trianoni Emlékharangozás',
+      androidFullScreenIntent: true,
+    ));
   }
 }
