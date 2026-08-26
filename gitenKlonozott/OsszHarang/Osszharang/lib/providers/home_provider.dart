@@ -72,15 +72,6 @@ class HomeProvider extends ChangeNotifier {
   Future<void> startRingingState(int id) async {
     currentAlarmId = id;
 
-    // Ha a déli harangozás szólalt meg (ID: 804), azonnal ütemezzük a holnapit
-    if (id == 804) {
-      _scheduleNextNoonBell();
-    }
-    // ÚJ: A Trianoni harang automatikus újraütemezése jövőre!
-    if (id == 604) {
-      _scheduleNextJun4Bell();
-    }
-
     // Kiszámoljuk az összes másodpercet az ID alapján
     int calculatedSeconds = 0;
 
@@ -168,7 +159,17 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> stopRinging() async {
     _ringingTimer?.cancel();
+
+    // 1. Leállítjuk az éppen futó csörgést
     await Alarm.stop(currentAlarmId);
+
+    // 2. MIUTÁN LEÁLLT, most már biztonságosan beállíthatjuk a következőt!
+    if (currentAlarmId == 804) {
+      await _scheduleNextNoonBell();
+    } else if (currentAlarmId == 604) {
+      await _scheduleNextJun4Bell();
+    }
+
     isRinging = false;
     isPaused = false;
     notifyListeners();

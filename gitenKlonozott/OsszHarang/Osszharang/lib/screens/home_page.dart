@@ -204,7 +204,7 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 5),
 
                       // KÖZÉPSŐ, KATTINTHATÓ (INTERAKTÍV) KÉP
                       // Ez csörgés közben is látszik, ezért nincs if (!provider.isRinging) mögött!
@@ -229,7 +229,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 15),
+                      //const SizedBox(height: 15),
 
                       // ALSÓ GOMBOK (Rejtve, ha csörög a harang)
                       if (!provider.isRinging)
