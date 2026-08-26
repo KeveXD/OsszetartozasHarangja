@@ -3,6 +3,7 @@ import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class HomeProvider extends ChangeNotifier {
   // --- VISSZASZÁMLÁLÓ VÁLTOZÓK ---
@@ -136,7 +137,8 @@ class HomeProvider extends ChangeNotifier {
       final bool vibrate = prefs.getBool('vibration') ?? true;
       final double volume = prefs.getDouble('volume') ?? 0.8;
 
-      final dummyAlarm = AlarmSettings(
+      // Megkeressük az eredeti ébresztő beállításait, vagy az id alapján újat indítunk helyes adatokkal
+      final alarmSettings = AlarmSettings(
         id: currentAlarmId,
         dateTime: DateTime.now(),
         assetAudioPath: 'assets/harangozas2.mp3',
@@ -145,10 +147,10 @@ class HomeProvider extends ChangeNotifier {
         volume: volume,
         notificationTitle: 'ÖsszHarang',
         notificationBody: 'Harangozás folyamatban...',
-        androidFullScreenIntent: false,
+        androidFullScreenIntent: Platform.isAndroid,
       );
 
-      await Alarm.set(alarmSettings: dummyAlarm);
+      await Alarm.set(alarmSettings: alarmSettings);
       isPaused = false;
     } else {
       await Alarm.stop(currentAlarmId);

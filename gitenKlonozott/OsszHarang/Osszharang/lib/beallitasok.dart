@@ -226,21 +226,20 @@ class _BeallitasokPageState extends State<BeallitasokPage> with WidgetsBindingOb
     await prefs.setInt('noon_duration', value);
   }
 
-  Future<void> _saveVibration(bool value) async {
-    setState(() => _vibration = value);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('vibration', value);
-    if (_jun4) _toggleJun4(true, skipConfirmation: true);
-    if (_noonBell) _toggleNoonBell(true);
-  }
+ Future<void> _saveVibration(bool value) async {
+   setState(() => _vibration = value);
+   final prefs = await SharedPreferences.getInstance();
+   await prefs.setBool('vibration', value);
+   // ITT KIVETTÜK az azonnali _toggleJun4 / _toggleNoonBell hívást,
+   // így nem omlik össze a csúszkánál / kapcsolónál!
+ }
 
-  Future<void> _saveVolume(double value) async {
-    setState(() => _volume = value);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('volume', value);
-    if (_jun4) _toggleJun4(true, skipConfirmation: true);
-    if (_noonBell) _toggleNoonBell(true);
-  }
+ Future<void> _saveVolume(double value) async {
+   setState(() => _volume = value);
+   final prefs = await SharedPreferences.getInstance();
+   await prefs.setDouble('volume', value);
+   // ITT IS KIVETTÜK az újraütemezést, csak elmentjük a memóriába.
+ }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'dart:io'; // <--- EZ KELL A Platform.isAndroid / Platform.isIOS vizsgálathoz!
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alarm/alarm.dart';
@@ -5,14 +6,12 @@ import 'package:alarm/model/alarm_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  // --- BEÁLLÍTÁS VÁLTOZÓK ---
   bool isJun4Active = true;
   bool isNoonBellActive = false;
   int noonDurationSeconds = 60;
   bool vibration = true;
   double volume = 0.8;
 
-  // --- ENGEDÉLY ÁLLAPOTOK ---
   bool isAlertWindowGranted = false;
   bool isNotificationGranted = false;
   bool isExactAlarmGranted = false;
@@ -22,16 +21,28 @@ class SettingsProvider extends ChangeNotifier {
     checkPermissions();
   }
 
-  // Engedélyek lekérdezése
+  // Engedélyek lekérdezése platform szerint biztonságosan
   Future<void> checkPermissions() async {
-    isAlertWindowGranted = await Permission.systemAlertWindow.isGranted;
+    // Értesítési engedély mindkét platformon kell
     isNotificationGranted = await Permission.notification.isGranted;
-    isExactAlarmGranted = await Permission.scheduleExactAlarm.isGranted;
 
-    notifyListeners(); // Szólunk a felületnek, hogy frissültek az adatok
+    // Ha még nincs meg az értesítés, kérjük el tőle
+    if (!isNotificationGranted) {
+      isNotificationGranted = (await Permission.notification.request()).isGranted;
+    }
+
+    if (Platform.isAndroid) {
+      isAlertWindowGranted = await Permission.systemAlertWindow.isGranted;
+      isExactAlarmGranted = await Permission.scheduleExactAlarm.isGranted;
+    } else if (Platform.isIOS) {
+       // iOS-en ezek automatikusan "igaznak" vehetők, mert a rendszer kezeli
+       isAlertWindowGranted = true;
+       isExactAlarmGranted = true;
+    }
+
+    notifyListeners();
   }
 
-  // Beállítások betöltése a memóriából
   Future<void> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -57,7 +68,6 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Trianoni harangozás kapcsolója
   Future<void> toggleJun4(bool value) async {
     isJun4Active = value;
     final prefs = await SharedPreferences.getInstance();
@@ -82,7 +92,8 @@ class SettingsProvider extends ChangeNotifier {
         volume: volume,
         notificationTitle: 'ÖsszHarang',
         notificationBody: 'Trianoni Emlékharangozás',
-        androidFullScreenIntent: true,
+        // Platformspecifikus: iOS-en nem kell / hibát adhat az androidFullScreenIntent
+        androidFullScreenIntent: Platform.isAndroid,
       ));
     } else {
       await Alarm.stop(604);
@@ -92,7 +103,6 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Déli harangozás kapcsolója
   Future<void> toggleNoonBell(bool value) async {
     isNoonBellActive = value;
     final prefs = await SharedPreferences.getInstance();
@@ -115,7 +125,7 @@ class SettingsProvider extends ChangeNotifier {
         volume: volume,
         notificationTitle: 'ÖsszHarang',
         notificationBody: 'Déli harangszó',
-        androidFullScreenIntent: true,
+        androidFullScreenIntent: Platform.isAndroid,
       ));
     } else {
       await Alarm.stop(804);
@@ -123,7 +133,6 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Déli harangozás hossza
   Future<void> saveNoonDuration(int value) async {
     noonDurationSeconds = value;
     final prefs = await SharedPreferences.getInstance();
@@ -131,33 +140,28 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Rezgés mentése
   Future<void> saveVibration(bool value) async {
     vibration = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('vibration', value);
 
-    // Riasztások frissítése az új beállítással
     if (isJun4Active) toggleJun4(true);
     if (isNoonBellActive) toggleNoonBell(true);
 
     notifyListeners();
   }
 
-  // Hangerő mentése
   Future<void> saveVolume(double value) async {
     volume = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('volume', value);
 
-    // Riasztások frissítése az új beállítással
     if (isJun4Active) toggleJun4(true);
     if (isNoonBellActive) toggleNoonBell(true);
 
     notifyListeners();
   }
 
-  // Emlékeztetők kezelése
   Future<void> _manageReminders(bool isJun4Off) async {
     if (isJun4Off) {
       final now = DateTime.now();
@@ -175,6 +179,7 @@ class SettingsProvider extends ChangeNotifier {
           volume: 0.0,
           notificationTitle: "Hé, ki van kapcsolva a harangozás!",
           notificationBody: "Már csak egy hét június 4-ig. Ne felejtsd el visszakapcsolni!",
+          androidFullScreenIntent: Platform.isAndroid,
         ));
       }
 
@@ -186,6 +191,7 @@ class SettingsProvider extends ChangeNotifier {
           volume: 0.0,
           notificationTitle: "Holnap harangozunk!",
           notificationBody: "A harangozás gombod még mindig ki van kapcsolva. Állítsd vissza most!",
+          androidFullScreenIntent: Platform.isAndroid,
         ));
       }
     } else {
