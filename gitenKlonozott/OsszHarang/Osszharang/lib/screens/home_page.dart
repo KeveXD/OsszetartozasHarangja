@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
     }
 
     return ClipRRect(
-      key: ValueKey<String>(imagePath), // Ez a kulcs kell a szép átúsztató animációhoz!
+      key: ValueKey<String>(imagePath),
       borderRadius: BorderRadius.circular(8),
       child: Image.asset(
         imagePath,
@@ -112,6 +112,32 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<HomeProvider>();
+
+    // --- DINAMIKUS SZÖVEGEK KISZÁMÍTÁSA ---
+    String mainTitle = "ÖSSZHARANG";
+    String subTitle = "TRIANONI EMLÉKEZÉS • JÚNIUS 4.";
+    String timeInfo = "16:32 KözépEU idő";
+    bool showTrianonFooter = true;
+
+    // Ha épp csörög valami, akkor a csörgés típusához (ID-jához) igazítjuk a feliratokat!
+    if (provider.isRinging) {
+      if (provider.currentAlarmId == 804) {
+        mainTitle = "DÉLI HARANGSZÓ";
+        subTitle = "MINDEN NAP PONTBAN DÉLBEN";
+        timeInfo = "A nándorfehérvári diadal emléke";
+        showTrianonFooter = false; // Elrejtjük az alsó Trianon logót
+      } else if (provider.currentAlarmId == 888) {
+        mainTitle = "ÉBRESZTŐ";
+        subTitle = "SAJÁT HARANGOZÁS";
+        timeInfo = "Itt az idő!";
+        showTrianonFooter = false; // Elrejtjük az alsó Trianon logót
+      } else if (provider.currentAlarmId == 999) {
+        mainTitle = "TESZT";
+        subTitle = "PRÓBA HARANGOZÁS";
+        timeInfo = "A hangrendszer ellenőrzése";
+        showTrianonFooter = false; // Elrejtjük az alsó Trianon logót
+      }
+    }
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundBase,
@@ -156,19 +182,20 @@ class HomePage extends StatelessWidget {
 
                       const SizedBox(height: 15),
 
-                      const Text(
-                        "ÖSSZHARANG",
-                        style: TextStyle(color: Colors.white, fontSize: 32, letterSpacing: 8.0, fontWeight: FontWeight.w300),
+                      // --- DINAMIKUS FELIRATOK HASZNÁLATA ---
+                      Text(
+                        mainTitle,
+                        style: const TextStyle(color: Colors.white, fontSize: 32, letterSpacing: 8.0, fontWeight: FontWeight.w300),
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        "TRIANONI EMLÉKEZÉS • JÚNIUS 4.",
+                        subTitle,
                         style: TextStyle(color: Colors.orange[300], fontSize: 12, letterSpacing: 2.0, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        "16:32 KözépEU idő",
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                      Text(
+                        timeInfo,
+                        style: const TextStyle(color: Colors.white70, fontSize: 16),
                       ),
 
                       const SizedBox(height: 25),
@@ -180,7 +207,7 @@ class HomePage extends StatelessWidget {
 
                       const SizedBox(height: 30),
 
-                      // FELSŐ GOMBOK (Rejtve, ha csörög a harang)
+                      // FELSŐ GOMBOK
                       if (!provider.isRinging)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -204,19 +231,14 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 15),
 
-                      // KÖZÉPSŐ, KATTINTHATÓ (INTERAKTÍV) KÉP
-                      // Ez csörgés közben is látszik, ezért nincs if (!provider.isRinging) mögött!
-                      // KÖZÉPSŐ, KATTINTHATÓ (INTERAKTÍV) KÉP
-                      // Ez csörgés közben is látszik, ezért nincs if (!provider.isRinging) mögött!
+                      // KÖZÉPSŐ, KATTINTHATÓ KÉP
                       GestureDetector(
                         onTap: () {
                           if (provider.isRinging) {
-                            // Ha épp harangozik, akkor némít / folytat
                             provider.togglePause();
                           } else {
-                            // Ha NEM harangozik, akkor megnyitja a Beállításokat!
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const BeallitasokPage())
@@ -229,9 +251,9 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
 
-                      //const SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
-                      // ALSÓ GOMBOK (Rejtve, ha csörög a harang)
+                      // ALSÓ GOMBOK (Finomított padding-gel a kompaktabb méretért)
                       if (!provider.isRinging)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -260,19 +282,45 @@ class HomePage extends StatelessWidget {
 
                       const Spacer(flex: 2),
 
-                      const Text(
-                        "1920. JÚNIUS 4. — TRIANONI BÉKEDIKTÁTUM",
-                        style: TextStyle(color: Colors.white54, fontSize: 11, letterSpacing: 1.0),
-                      ),
-                      const SizedBox(height: 10),
-                      Image.asset('assets/trianon.gif', height: 110),
+                      // --- DINAMIKUS TRIANON LÁBLÉC ---
+                      if (showTrianonFooter) ...[
+                        const Text(
+                          "1920. JÚNIUS 4. — TRIANONI BÉKEDIKTÁTUM",
+                          style: TextStyle(color: Colors.white54, fontSize: 11, letterSpacing: 1.0),
+                        ),
+                        const SizedBox(height: 10),
+                        Image.asset('assets/trianon.gif', height: 110),
+                      ] else ...[
+                        // Ha el van rejtve a Trianon infó, akkor is hagyunk egy kis üres helyet (térközt), hogy ne ugorjon fel az egész UI
+                        const SizedBox(height: 135),
+                      ],
 
                       const SizedBox(height: 30),
                     ],
                   ),
                 ),
 
-
+                if (provider.isNoonBellActive && !provider.isRinging)
+                  Positioned(
+                    top: 15,
+                    right: 15,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.amberAccent.withOpacity(0.5), width: 1),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.wb_sunny_outlined, color: Colors.amberAccent, size: 14),
+                          SizedBox(width: 5),
+                          Text("Déli harang", style: TextStyle(color: Colors.amberAccent, fontSize: 11, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -334,27 +382,7 @@ class HomePage extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Ha akarod, ezt az Elnémítás gombot akár el is rejtheted mostantól, hiszen az új kép átvette a funkcióját!
-        // De meghagytam a biztonság kedvéért.
-        SizedBox(
-          width: 260,
-          child: ElevatedButton.icon(
-            onPressed: provider.togglePause,
-            icon: Icon(provider.isPaused ? Icons.play_arrow : Icons.volume_off, color: Colors.white),
-            label: Text(
-                provider.isPaused ? "FOLYTATÁS (${provider.ringingSecondsRemaining} mp)" : "Elnémítás",
-                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.2)
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: provider.isPaused ? const Color(0xFF1DB954) : const Color(0xFFFF5722),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              elevation: 5,
-            ),
-          ),
-        ),
         if (provider.currentAlarmId == 888) ...[
-          const SizedBox(height: 15),
           SizedBox(
             width: 260,
             child: ElevatedButton.icon(
@@ -372,8 +400,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 15),
         ],
-        const SizedBox(height: 15),
         Text(
           "${provider.ringingSecondsRemaining} / ${provider.totalRingingSeconds} mp",
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white, letterSpacing: 1.5),
@@ -401,7 +429,7 @@ class HomePage extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0), // Itt alkalmaztuk a vékonyabb térközt!
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
