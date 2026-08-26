@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // Saját fájlok importja
-import '../constants/theme.dart'; // Ellenőrizd az útvonalat!
-import '../providers/ebreszto_provider.dart'; // FONTOS IMPORT!
+import 'constants/theme.dart'; // Ellenőrizd az útvonalat!
+import 'providers/ebreszto_provider.dart'; // FONTOS IMPORT!
 
 class EbresztoPage extends StatelessWidget {
   const EbresztoPage({Key? key}) : super(key: key);
