@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.ballakeve.osszharang"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = "27.0.12077973" // Ha ez működik nálad, maradhat, de a flutter.ndkVersion az ajánlott
 
     compileOptions {
@@ -34,7 +34,7 @@ android {
         applicationId = "com.ballakeve.osszharang"
 
         minSdk = 24 // Ezt érdemes lehet 23-ra vagy 21-re venni a kompatibilitás miatt, de a 24 is oké
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
