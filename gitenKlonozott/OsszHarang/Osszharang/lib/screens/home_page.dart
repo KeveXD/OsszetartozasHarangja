@@ -10,9 +10,6 @@ import '../constants/theme.dart';
 import '../ebreszto.dart';
 import '../providers/home_provider.dart';
 
-// Saját fájlok importja
-
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -52,7 +49,11 @@ class HomePage extends StatelessWidget {
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: SingleChildScrollView(
-                        child: Text(AppStrings.trianonDescription, textAlign: TextAlign.justify, style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.6)),
+                        child: Text(
+                            AppStrings.trianonDescription,
+                            textAlign: TextAlign.justify,
+                            style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.6)
+                        ),
                       ),
                     ),
                   ),
@@ -77,12 +78,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<HomeProvider>();
 
-    // Varázslat: Ha csörög, a teljesen különálló RingingPage-et mutatjuk!
+    // Képernyőméretek lekérése
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = screenSize.height;
+    final double screenWidth = screenSize.width;
+
     if (provider.isRinging) {
       return const RingingPage();
     }
 
-    // --- ALAPÁLLAPOT (Várakozó / Visszaszámláló felület) ---
     return Scaffold(
       backgroundColor: AppTheme.backgroundBase,
       body: Stack(
@@ -100,33 +104,56 @@ class HomePage extends StatelessWidget {
                     children: [
                       const Spacer(flex: 4),
 
-                      // Statikus borítókép
+                      // Statikus borítókép arányosan
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        height: 70,
+                        height: screenHeight * 0.08, // Képernyőmagasság 8%-a
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.asset('assets/harangborito.png', fit: BoxFit.contain),
                         ),
                       ),
 
-                      const SizedBox(height: 15),
+                      SizedBox(height: screenHeight * 0.015),
 
-                      const Text("ÖSSZHARANG", style: TextStyle(color: Colors.white, fontSize: 32, letterSpacing: 8.0, fontWeight: FontWeight.w300)),
-                      const SizedBox(height: 5),
-                      Text("TRIANONI EMLÉKEZÉS • JÚNIUS 4.", style: TextStyle(color: Colors.orange[300], fontSize: 12, letterSpacing: 2.0, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 20),
-                      const Text("16:32 KözépEU idő", style: TextStyle(color: Colors.white70, fontSize: 16)),
+                      // Címek relatív betűmérettel
+                      Text(
+                          "ÖSSZHARANG",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.08, // Képernyőszélesség 8%-a
+                              letterSpacing: 8.0,
+                              fontWeight: FontWeight.w300
+                          )
+                      ),
+                      SizedBox(height: screenHeight * 0.005),
+                      Text(
+                          "TRIANONI EMLÉKEZÉS • JÚNIUS 4.",
+                          style: TextStyle(
+                              color: Colors.orange[300],
+                              fontSize: screenWidth * 0.03,
+                              letterSpacing: 2.0,
+                              fontWeight: FontWeight.bold
+                          )
+                      ),
+                      SizedBox(height: screenHeight * 0.02),
+                      Text(
+                          "16:32 KözépEU idő",
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: screenWidth * 0.04
+                          )
+                      ),
 
-                      const SizedBox(height: 25),
+                      SizedBox(height: screenHeight * 0.025),
 
                       // Visszaszámláló
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: _buildCountdownUI(provider),
+                        child: _buildCountdownUI(provider, screenWidth, screenHeight),
                       ),
 
-                      const SizedBox(height: 30),
+                      SizedBox(height: screenHeight * 0.03),
 
                       // Felső gombok
                       Row(
@@ -136,21 +163,23 @@ class HomePage extends StatelessWidget {
                             icon: Icons.play_arrow_outlined,
                             label: "Teszt 10mp",
                             onTap: provider.startImmediateTest,
+                            screenWidth: screenWidth,
                           ),
-                          const SizedBox(width: 15),
+                          SizedBox(width: screenWidth * 0.03),
                           _buildOutlinedButton(
                             icon: Icons.settings_outlined,
                             label: "Beállítások",
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const BeallitasokPage())).then((_) => provider.loadSettings());
                             },
+                            screenWidth: screenWidth,
                           ),
                         ],
                       ),
 
-                      const SizedBox(height: 15),
+                      SizedBox(height: screenHeight * 0.015),
 
-                      // Déli harang kapcsoló (interaktív kép)
+                      // Déli harang kapcsoló
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const BeallitasokPage())).then((_) => provider.loadSettings());
@@ -162,41 +191,64 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                             child: Image.asset(
                               provider.isNoonBellActive ? 'assets/deliharangbekapcsolva.png' : 'assets/deliharangkikapcsolva.png',
-                              height: 60,
+                              height: screenHeight * 0.065, // Képernyőmagasság 6.5%-a
                               fit: BoxFit.contain,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 15),
+                      SizedBox(height: screenHeight * 0.003),
 
                       // Alsó gombok
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildTextButton(icon: Icons.alarm, label: "Ébresztő", onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const EbresztoPage()));
-                          }),
-                          const SizedBox(width: 8),
-                          _buildTextButton(icon: Icons.info_outline, label: "Információ", onTap: () => _showInfoDialog(context)),
-                          const SizedBox(width: 8),
-                          _buildTextButton(icon: Icons.open_in_new, label: "Weboldal", onTap: _launchUrl),
+                          _buildTextButton(
+                            icon: Icons.alarm,
+                            label: "Ébresztő",
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EbresztoPage()));
+                            },
+                            screenWidth: screenWidth,
+                          ),
+                          //SizedBox(width: screenWidth * 0.003),
+                          _buildTextButton(
+                            icon: Icons.info_outline,
+                            label: "Információ",
+                            onTap: () => _showInfoDialog(context),
+                            screenWidth: screenWidth,
+                          ),
+                          SizedBox(width: screenWidth * 0.015),
+                          _buildTextButton(
+                            icon: Icons.open_in_new,
+                            label: "Weboldal",
+                            onTap: _launchUrl,
+                            screenWidth: screenWidth,
+                          ),
                         ],
                       ),
 
-                      const Spacer(flex: 2),
+                      const Spacer(flex: 1),
 
-                      const Text("1920. JÚNIUS 4. — TRIANONI BÉKEDIKTÁTUM", style: TextStyle(color: Colors.white54, fontSize: 11, letterSpacing: 1.0)),
-                      const SizedBox(height: 10),
-                      Image.asset('assets/trianon.gif', height: 110),
+                      Text(
+                          "1920. JÚNIUS 4. — TRIANONI BÉKEDIKTÁTUM",
+                          style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: screenWidth * 0.025,
+                              letterSpacing: 1.0
+                          )
+                      ),
+                      SizedBox(height: screenHeight * 0.01),
+                      Image.asset(
+                          'assets/trianon.gif',
+                          height: screenHeight * 0.12 // Képernyőmagasság 12%-a
+                      ),
 
-                      const SizedBox(height: 30),
+                      SizedBox(height: screenHeight * 0.03),
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -206,7 +258,7 @@ class HomePage extends StatelessWidget {
   }
 
   // --- UI RÉSZEGYSÉGEK ---
-  Widget _buildCountdownUI(HomeProvider provider) {
+  Widget _buildCountdownUI(HomeProvider provider, double screenWidth, double screenHeight) {
     int days = provider.timeUntilTrianon.inDays;
     int hours = provider.timeUntilTrianon.inHours.remainder(24);
     int minutes = provider.timeUntilTrianon.inMinutes.remainder(60);
@@ -216,21 +268,21 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTimeBox(days.toString(), "NAP"),
-        _buildColon(),
-        _buildTimeBox(hours.toString().padLeft(2, '0'), "ÓRA"),
-        _buildColon(),
-        _buildTimeBox(minutes.toString().padLeft(2, '0'), "PERC"),
-        _buildColon(),
-        _buildTimeBox(seconds.toString().padLeft(2, '0'), "MP"),
+        _buildTimeBox(days.toString(), "NAP", screenWidth, screenHeight),
+        _buildColon(screenWidth, screenHeight),
+        _buildTimeBox(hours.toString().padLeft(2, '0'), "ÓRA", screenWidth, screenHeight),
+        _buildColon(screenWidth, screenHeight),
+        _buildTimeBox(minutes.toString().padLeft(2, '0'), "PERC", screenWidth, screenHeight),
+        _buildColon(screenWidth, screenHeight),
+        _buildTimeBox(seconds.toString().padLeft(2, '0'), "MP", screenWidth, screenHeight),
       ],
     );
   }
 
-  Widget _buildTimeBox(String value, String label) {
+  Widget _buildTimeBox(String value, String label, double screenWidth, double screenHeight) {
     return Container(
-      width: 70,
-      height: 80,
+      width: screenWidth * 0.16, // A képernyőszélesség 16%-a
+      height: screenHeight * 0.09, // A képernyőmagasság 9%-a
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10),
@@ -239,46 +291,67 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(value, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
-          Text(label, style: const TextStyle(fontSize: 10, color: Colors.white70, letterSpacing: 1.0)),
+          Text(
+              value,
+              style: TextStyle(
+                  fontSize: screenWidth * 0.075, // Relatív betűméret a számoknak
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              )
+          ),
+          Text(
+              label,
+              style: TextStyle(
+                  fontSize: screenWidth * 0.025, // Relatív betűméret a címkéknek
+                  color: Colors.white70,
+                  letterSpacing: 1.0
+              )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildColon() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 15),
-      child: Text(":", style: TextStyle(fontSize: 24, color: Colors.white54, fontWeight: FontWeight.bold)),
+  Widget _buildColon(double screenWidth, double screenHeight) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01, vertical: screenHeight * 0.015),
+      child: Text(
+          ":",
+          style: TextStyle(
+              fontSize: screenWidth * 0.05,
+              color: Colors.white54,
+              fontWeight: FontWeight.bold
+          )
+      ),
     );
   }
 
-  Widget _buildOutlinedButton({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildOutlinedButton({required IconData icon, required String label, required VoidCallback onTap, required double screenWidth}) {
     return OutlinedButton.icon(
       onPressed: onTap,
-      icon: Icon(icon, color: Colors.white70, size: 18),
-      label: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
+      icon: Icon(icon, color: Colors.white70, size: screenWidth * 0.045),
+      label: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: screenWidth * 0.035)),
       style: OutlinedButton.styleFrom(
         side: const BorderSide(color: Colors.white54, width: 1.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenWidth * 0.025),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         backgroundColor: Colors.transparent,
       ),
     );
   }
 
-  Widget _buildTextButton({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildTextButton({required IconData icon, required String label, required VoidCallback onTap, required double screenWidth}) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02, vertical: screenWidth * 0.015),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white70, size: 16),
-            const SizedBox(width: 5),
-            Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+            Icon(icon, color: Colors.white70, size: screenWidth * 0.04),
+            SizedBox(width: screenWidth * 0.01),
+            Text(label, style: TextStyle(color: Colors.white, fontSize: screenWidth * 0.03)),
           ],
         ),
       ),
