@@ -4,10 +4,10 @@ import 'package:osszharang_app/screens/ringing_page.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
-import '../beallitasok.dart';
+import 'beallitasok_page.dart';
 import '../constants/strings.dart';
 import '../constants/theme.dart';
-import '../ebreszto.dart';
+import 'ebreszto_page.dart';
 import '../providers/home_provider.dart';
 
 class HomePage extends StatelessWidget {

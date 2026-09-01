@@ -11,7 +11,7 @@ import 'providers/ebreszto_provider.dart';
 
 // --- SAJÁT FÁJLOK IMPORTÁLÁSA ---
 import 'constants/theme.dart';
-import 'screens/permission_check_wrapper.dart'; // Az újonnan létrehozott fájl!
+import 'widgets/permission_check_wrapper.dart'; // Az újonnan létrehozott fájl!
 
 Future<void> main() async {
   // Inicializálások

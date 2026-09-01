@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-// Saját importok
-import '../permission_service.dart'; // Igazítsd az útvonalat, ha máshol van!
+import '../permission_service.dart';
 import '../constants/theme.dart';
-import 'home_page.dart';    // Igazítsd az útvonalat!
+import '../screens/home_page.dart';
 
 class PermissionCheckWrapper extends StatefulWidget {
   const PermissionCheckWrapper({super.key});
@@ -43,15 +43,19 @@ class _PermissionCheckWrapperState extends State<PermissionCheckWrapper> with Wi
     ].request();
 
     bool firstTime = await PermissionService.shouldShowDialog();
-    bool isGranted = await Permission.systemAlertWindow.isGranted;
+    bool isAlertGranted = Platform.isIOS ? true : await Permission.systemAlertWindow.isGranted;
 
-    if (firstTime && !isGranted) {
-      _showRequestDialog();
+    if (firstTime) {
+      if (Platform.isAndroid && !isAlertGranted) {
+        _showAndroidRequestDialog();
+      } else if (Platform.isIOS) {
+        _showIosInfoDialog();
+      }
     }
   }
 
   Future<void> _checkAfterReturning() async {
-    if (_wentToSettings) {
+    if (_wentToSettings && Platform.isAndroid) {
       bool isGranted = await Permission.systemAlertWindow.isGranted;
       if (isGranted) {
         _showSuccessDialog();
@@ -60,18 +64,45 @@ class _PermissionCheckWrapperState extends State<PermissionCheckWrapper> with Wi
     }
   }
 
-  void _showRequestDialog() {
+  void _showIosInfoDialog() {
     PermissionService.setDialogShown();
-
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Row(
-          children: [
+          children: const [
+            Icon(Icons.apple, color: Colors.white),
+            SizedBox(width: 10),
+            Text("iOS Működés"),
+          ],
+        ),
+        content: const Text(
+          "Az iPhone biztonsági szabályai (korlátozásai, előírásai) miatt az app nem tudja automatikusan feloldani a képernyőt.\n\nAmikor eljön a harangozás ideje, a hang a háttérből szólal meg, és egy értesítést (jelzést, üzenetet) kapsz. Koppints rá, hogy megnyíljon a harangozó felület!",
+          style: TextStyle(fontSize: 14, height: 1.5),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.borderDarkGreen),
+            child: const Text("MEGÉRTETTEM", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAndroidRequestDialog() {
+    PermissionService.setDialogShown();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: const [
             Icon(Icons.security, color: AppTheme.accentRed),
-            const SizedBox(width: 10),
-            const Text("Fontos Engedély"),
+            SizedBox(width: 10),
+            Text("Fontos Engedély"),
           ],
         ),
         content: SingleChildScrollView(
@@ -81,14 +112,13 @@ class _PermissionCheckWrapperState extends State<PermissionCheckWrapper> with Wi
             children: const [
               Text("Üdvözöl az ÖsszHarang!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               SizedBox(height: 10),
-              Text("Ahhoz, hogy az alkalmazás igazi ébresztőóraként (vekkerként, riasztóként) tudjon működni, és a harangozás idején lezárt képernyőnél is teljes méretben megjelenjen, engedélyezned kell a 'Megjelenítés más alkalmazások felett' opciót."),
+              Text("Ahhoz, hogy az alkalmazás igazi ébresztőóraként (vekkerként, riasztóként) tudjon működni, és a harangozás idején lezárt képernyőnél is megjelenjen, engedélyezned kell a 'Megjelenítés más alkalmazások felett' opciót."),
               SizedBox(height: 15),
-              Text("Hol találod meg, ha a gomb nem visz oda automatikusan?", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Hol találod meg?", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 5),
               Text(
-                "• Samsung: Beállítások ➡️ Alkalmazások ➡️ Különleges alkalmazáshozzáférés ➡️ Megjelenés legfelül\n\n"
-                    "• Xiaomi / Poco: Beállítások ➡️ Alkalmazások ➡️ Engedélykezelés ➡️ Egyéb engedélyek ➡️ 'Megjelenítés felugró ablakként'\n\n"
-                    "• Egyéb Android: Beállítások ➡️ Alkalmazások ➡️ ÖsszHarang ➡️ Speciális ➡️ Megjelenítés más alkalmazások felett.",
+                "• Samsung: Beállítások ➡️ Alkalmazások ➡️ Különleges hozzáférés ➡️ Megjelenés legfelül\n\n"
+                    "• Xiaomi: Beállítások ➡️ Alkalmazások ➡️ Engedélykezelés ➡️ Egyéb engedélyek ➡️ 'Felugró ablak'\n\n",
                 style: TextStyle(fontSize: 13, height: 1.4),
               ),
             ],
@@ -118,7 +148,7 @@ class _PermissionCheckWrapperState extends State<PermissionCheckWrapper> with Wi
       context: context,
       builder: (context) => AlertDialog(
         title: const Icon(Icons.check_circle_outline, color: Colors.greenAccent, size: 50),
-        content: const Text("Sikeres beállítás! Az alkalmazás most már hibátlanul fog működni.", textAlign: TextAlign.center),
+        content: const Text("Sikeres beállítás!", textAlign: TextAlign.center),
         actions: [
           Center(
             child: ElevatedButton(

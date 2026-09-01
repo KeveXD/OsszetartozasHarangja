@@ -82,17 +82,20 @@ class RingingPage extends StatelessWidget {
                   // Feliratok
                   Text(
                     mainTitle,
-                    style: const TextStyle(color: Colors.white, fontSize: 32, letterSpacing: 8.0, fontWeight: FontWeight.w300, ),
+                    textAlign: TextAlign.center, // <-- EZ HIÁNYZOTT
+                    style: const TextStyle(color: Colors.white, fontSize: 32, letterSpacing: 8.0, fontWeight: FontWeight.w300),
                   ),
                   const SizedBox(height: 5),
                   Text(
                     subTitle,
-                    style: TextStyle(color: Colors.orange[300], fontSize: 12, letterSpacing: 2.0, fontWeight: FontWeight.bold, ),
+                    textAlign: TextAlign.center, // <-- ÉS INNEN IS
+                    style: TextStyle(color: Colors.orange[300], fontSize: 12, letterSpacing: 2.0, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     timeInfo,
-                    style: const TextStyle(color: Colors.white70, fontSize: 16, ),
+                    textAlign: TextAlign.center, // <-- BIZTOS AMI BIZTOS
+                    style: const TextStyle(color: Colors.white70, fontSize: 16),
                   ),
 
                   const SizedBox(height: 40),
